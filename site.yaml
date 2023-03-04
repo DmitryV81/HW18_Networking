@@ -1,0 +1,14 @@
+---
+- name: Setting Routers
+  hosts: inetRouter centralRouter office1Router office2Router
+  become: true
+  roles:
+  - routers
+
+- name: Setting Servers
+  hosts: centralServer office1Server office2Server
+  become: true
+  roles:
+  - servers
+
+...

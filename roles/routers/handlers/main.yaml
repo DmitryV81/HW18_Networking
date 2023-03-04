@@ -1,0 +1,12 @@
+---
+- name: restart networking
+  service:
+    name: network
+    state: restarted
+ 
+- name: restart network debian
+  command: systemctl restart networking
+
+- name: netplan apply
+  command: netplan apply
+...
