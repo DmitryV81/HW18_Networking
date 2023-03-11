@@ -61,7 +61,7 @@ Vagrantfile с начальным построением сети
 Выполним подсчет сетей, определим количество хостов в каждой подсети и broadcast address:
 
 
-![IP Range of test stend](https://github.com/DmitryV81/HW18_Networking/blob/main/pictures/ip_range.jpg)
+![IP Range of test stend](https://github.com/DmitryV81/HW18_Networking/blob/main/pictures/ip_range.JPG)
 
 
 Далее автоматизируем процесс настройки стенда с помощью ansible и проверим результат.
