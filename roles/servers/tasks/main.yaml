@@ -15,6 +15,12 @@
 #  ansible.posix.selinux:
 #    state: disabled
 
+- name: reload network centralServer
+  service:
+    name: network
+    state: restarted
+  when: (ansible_hostname == "centralServer")
+
 - name: set up route on office1Server
   template:
     src: office1Server_route.j2
@@ -23,7 +29,7 @@
     group: root
     mode: 0755
   notify: netplan apply
-  when: ansible_hostname == "office1Server"
+  when: (ansible_hostname == "office1Server")
 
 - name: set up route on office2Server
   template:
@@ -33,5 +39,10 @@
     group: root
     mode: 0755
   notify: restart networking
-  when: ansible_hostname == "office2Server"
+  when: (ansible_hostname == "office2Server")
+
+#- name: Reboot office2Server
+#  reboot:
+#    reboot_timeout: 3600
+#  when: (ansible_hostname == "office2Server")
 ...

@@ -111,13 +111,18 @@
   notify: netplan apply
   when: (ansible_hostname == "office1Router")
 
-#- name: set up route on office2Router
-#  template:
-#    src: office2Router_route.j2
-#    dest: /etc/network/interfaces
-#    owner: root
-#    group: root
-#    mode: 0755
-#  notify: restart network debian
+- name: set up route on office2Router
+  template:
+    src: office2Router_route.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart network debian
+  when: (ansible_hostname == "office2Router")
+
+#- name: Reboot office2Router
+#  reboot:
+#    reboot_timeout: 3600
 #  when: (ansible_hostname == "office2Router")
 ...
