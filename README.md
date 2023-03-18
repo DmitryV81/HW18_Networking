@@ -66,17 +66,15 @@ Vagrantfile с начальным построением сети
 
 Далее автоматизируем процесс настройки стенда с помощью ansible и проверим результат.
 
-1. Ping и вывод traceroute с сервера office1Server:
+1. ip r и вывод traceroute с сервера office1Server:
 ```
-root@office1Server:~# ping 8.8.8.8
-PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=57 time=95.5 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=57 time=97.1 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=57 time=95.2 ms
-^C
---- 8.8.8.8 ping statistics ---
-4 packets transmitted, 3 received, 25% packet loss, time 3089ms
-rtt min/avg/max/mdev = 95.240/95.942/97.121/0.838 ms
+root@office1Server:~# ip r
+default via 192.168.2.129 dev enp0s8 proto static
+default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
+10.0.2.0/24 dev enp0s3 proto kernel scope link src 10.0.2.15
+10.0.2.2 dev enp0s3 proto dhcp scope link src 10.0.2.15 metric 100
+192.168.2.128/26 dev enp0s8 proto kernel scope link src 192.168.2.130
+192.168.50.0/24 dev enp0s19 proto kernel scope link src 192.168.50.21
 root@office1Server:~# traceroute otus.ru
 traceroute to otus.ru (188.114.99.236), 30 hops max, 60 byte packets
  1  _gateway (192.168.2.129)  0.844 ms  0.781 ms  0.747 ms
@@ -90,17 +88,36 @@ traceroute to otus.ru (188.114.99.236), 30 hops max, 60 byte packets
  9  * 188.114.99.236 (188.114.99.236)  81.941 ms  81.862 ms
 
 ```
-2. Ping и вывод traceroute с сервера office2Server
+2. ip r и вывод traceroute с сервера office2Server
 ```
+root@office2Server:~# ip r
+default via 192.168.1.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.1.0/25 dev eth1 proto kernel scope link src 192.168.1.2
+192.168.50.0/24 dev eth2 proto kernel scope link src 192.168.50.31
+root@office2Server:~# traceroute otus.ru
+traceroute to otus.ru (188.114.98.236), 30 hops max, 60 byte packets
+ 1  _gateway (192.168.1.1)  0.794 ms  0.728 ms  0.689 ms
+ 2  192.168.255.5 (192.168.255.5)  1.700 ms  1.651 ms  1.418 ms
+ 3  192.168.255.1 (192.168.255.1)  1.860 ms  1.804 ms  1.758 ms
+ 4  * * *
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * * *
+ 9  * * *
+10  * * *
+11  * * *
+12  * * 188.114.98.236 (188.114.98.236)  73.585 ms
 
 ```
-3. Ping и вывод traceroute с сервера centralServer
+3. ip r и вывод traceroute с сервера centralServer
 ```
-[root@centralServer ~]# ping 8.8.8.8
-PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=63 time=94.2 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=63 time=93.5 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=63 time=93.4 ms
+[root@centralServer ~]# ip r
+default via 192.168.0.1 dev eth1 proto static metric 101
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 metric 100
+192.168.0.0/28 dev eth1 proto kernel scope link src 192.168.0.2 metric 101
+192.168.50.0/24 dev eth2 proto kernel scope link src 192.168.50.12 metric 102
 [root@centralServer ~]# traceroute otus.ru
 traceroute to otus.ru (188.114.99.236), 30 hops max, 60 byte packets
  1  gateway (192.168.0.1)  1.208 ms  1.105 ms  0.922 ms
